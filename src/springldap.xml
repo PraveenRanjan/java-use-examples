@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
-<beans>
-    <bean id="contextSource"
-          class="org.springframework.ldap.core.support.LdapContextSource">
-        <!--<property name="url" value="ldap://192.168.1.102:389"/>-->
-        <property name="url" value="ldaps://192.168.1.102:636"/>
-        <property name="base" value="CN=Users,dc=agileworks,dc=com"/>
-        <property name="userDn" value="CN=Administrador,CN=Users,DC=agileworks,DC=com"/>
-        <property name="password" value="$awpassword191"/>
-        <property name="referral" value="follow"/>
-        <property name="baseEnvironmentProperties">
-            <map>
-                <entry key="java.naming.security.authentication" value="simple"/>
-            </map>
-        </property>
-    </bean>
-    <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+<!-- <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd"> -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:ldap="http://www.springframework.org/schema/ldap"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd 
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context.xsd 
+       http://www.springframework.org/schema/ldap 
+       http://www.springframework.org/schema/ldap/spring-ldap.xsd">
+
+  <ldap:context-source
+  <!--<property name="url" value="ldap://192.168.1.102:389"/>-->
+          url="ldaps://192.168.1.102:636"
+          base="CN=Users,dc=agileworks,dc=com"          
+          username="CN=Administrator,CN=Users,dc=agileworks,dc=com"
+          password="" />
+         
+
+    <ldap:ldap-template id="ldapTemplate" context-source-ref="contextSource"/>
+   
+  <!--   <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
         <constructor-arg ref="contextSource"/>
-    </bean>
-    <bean id="ldapUser" class="com.aw.ad.UserDaoImpl">
+    </bean> -->
+   
+   <bean id="ldapUser" class="com.aw.ad.UserDaoImpl">
         <property name="ldapTemplate" ref="ldapTemplate"/>
     </bean>
+
+   
 </beans>
